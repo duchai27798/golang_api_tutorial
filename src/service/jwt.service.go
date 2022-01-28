@@ -35,7 +35,7 @@ func (j JWTService) GenerateToken(UserId string) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	t, err := token.SignedString([]byte(j.secretKey))
 	if err != nil {
-		utils.LogError(err)
+		utils.LogObj(err)
 	}
 	return t
 }
