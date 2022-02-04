@@ -6,7 +6,7 @@ import (
 )
 
 // BadRequest api return bad request response
-func BadRequest(context *gin.Context, message string, error string) {
+func BadRequest(context *gin.Context, message string, error []ApiError) {
 	if message == "" {
 		message = "Failed to precess request"
 	}

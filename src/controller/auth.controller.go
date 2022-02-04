@@ -21,11 +21,11 @@ type AuthController struct {
 
 func (authController AuthController) Login(context *gin.Context) {
 	var loginDTO dto.LoginDTO
-	errDTO := context.ShouldBind(&loginDTO)
+	dtoOk, errDTO := helper.Validate(context.ShouldBind(&loginDTO))
 	ok, errValidation := helper.Validate(loginDTO)
-	utils.LogObj(loginDTO)
-	if errDTO != nil {
-		helper.BadRequest(context, "", errDTO.Error())
+
+	if !dtoOk {
+		helper.BadRequest(context, "", errDTO)
 		return
 	}
 
@@ -41,19 +41,27 @@ func (authController AuthController) Login(context *gin.Context) {
 		helper.Ok(context, v)
 		return
 	}
-	helper.BadRequest(context, "Please check again your credential", "Invalid credential")
+	helper.BadRequest(context, "Please check again your credential", helper.NewSingleError("Invalid credential"))
 }
 
 func (authController AuthController) Register(context *gin.Context) {
 	var registerDTO dto.RegisterDTO
-	errDTO := context.ShouldBind(&registerDTO)
-	if errDTO != nil {
-		helper.BadRequest(context, "", errDTO.Error())
+	dtoOk, errDTO := helper.Validate(context.ShouldBind(&registerDTO))
+	utils.LogObj(registerDTO)
+	ok, errValidation := helper.Validate(registerDTO)
+
+	if !dtoOk {
+		helper.BadRequest(context, "", errDTO)
+		return
+	}
+
+	if !ok {
+		helper.BadRequest(context, "", errValidation)
 		return
 	}
 
 	if authController.authService.IsDuplicateEmail(registerDTO.Email) {
-		helper.BadRequest(context, "", "Duplicate Email")
+		helper.BadRequest(context, "", helper.NewSingleError("Duplicate Email"))
 		return
 	} else {
 		createUser := authController.authService.CreateUser(registerDTO)

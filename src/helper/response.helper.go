@@ -1,12 +1,10 @@
 package helper
 
-import "strings"
-
 // Response response struct
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
-	Errors  interface{} `json:"errors"`
+	Errors  []ApiError  `json:"errors"`
 	Result  interface{} `json:"result"`
 }
 
@@ -24,11 +22,11 @@ func BuildResponse(status bool, message string, result interface{}) Response {
 }
 
 // BuildErrorResponse build error response object
-func BuildErrorResponse(message string, error string, result interface{}) Response {
+func BuildErrorResponse(message string, error []ApiError, result interface{}) Response {
 	return Response{
 		Status:  false,
 		Message: message,
 		Result:  result,
-		Errors:  strings.Split(error, "\n"),
+		Errors:  error,
 	}
 }

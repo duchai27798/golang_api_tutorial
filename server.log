@@ -12,7 +12,50 @@ connect successful
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :3000
 {
-	"email": "2ai",
+	"name": "H",
+	"email": "h@gmail.com",
+	"password": "12"
+}
+[GIN] 2022/02/05 - 02:06:31 | 400 |     269.416µs |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "H",
+	"email": "h@.com",
+	"password": "12"
+}
+[GIN] 2022/02/05 - 02:06:46 | 400 |      93.231µs |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "Harry",
+	"email": "h@gmail.com",
+	"password": "12"
+}
+[GIN] 2022/02/05 - 02:07:35 | 400 |      102.47µs |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "Harry",
+	"email": "h@gmail.com",
+	"password": "12"
+}
+[GIN] 2022/02/05 - 02:07:37 | 400 |      69.386µs |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "Harry",
+	"email": "h@gmail.com",
 	"password": "123456"
 }
-[GIN] 2022/02/04 - 20:23:21 | 400 |     235.136µs |       127.0.0.1 | POST     "/api/auth/login"
+[GIN] 2022/02/05 - 02:07:47 | 400 |    2.387686ms |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "Harry",
+	"email": "ha@gmail.com",
+	"password": "123456"
+}
+[GIN] 2022/02/05 - 02:07:58 | 200 |    9.628594ms |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "Harry",
+	"email": "ha@gmail.com",
+	"password": "123456"
+}
+[GIN] 2022/02/05 - 02:08:19 | 400 |    1.754788ms |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"name": "Harry",
+	"email": "ha@gmail.com",
+	"password": "1234"
+}
+[GIN] 2022/02/05 - 02:08:26 | 400 |      91.073µs |       127.0.0.1 | POST     "/api/auth/register"
