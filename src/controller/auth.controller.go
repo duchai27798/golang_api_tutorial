@@ -7,7 +7,6 @@ import (
 	"github.com/duchai27798/golang_api_tutorial/src/service"
 	"github.com/duchai27798/golang_api_tutorial/src/utils"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type IAuthController interface {
@@ -23,9 +22,15 @@ type AuthController struct {
 func (authController AuthController) Login(context *gin.Context) {
 	var loginDTO dto.LoginDTO
 	errDTO := context.ShouldBind(&loginDTO)
+	ok, errValidation := helper.Validate(loginDTO)
 	utils.LogObj(loginDTO)
 	if errDTO != nil {
-		context.AbortWithStatusJSON(http.StatusBadRequest, helper.BuildErrorResponse("Failed to precess request", errDTO.Error(), helper.EmptyObj{}))
+		helper.BadRequest(context, "", errDTO.Error())
+		return
+	}
+
+	if !ok {
+		helper.BadRequest(context, "", errValidation)
 		return
 	}
 
@@ -33,28 +38,28 @@ func (authController AuthController) Login(context *gin.Context) {
 	if v, ok := authResult.(entity.User); ok {
 		utils.LogObj(v, "user info")
 		v.Token = authController.jwtService.GenerateToken(v.ID)
-		context.JSON(http.StatusOK, helper.BuildResponse(true, "ok", v))
+		helper.Ok(context, v)
 		return
 	}
-	context.AbortWithStatusJSON(http.StatusBadRequest, helper.BuildErrorResponse("Please check again your credential", "Invalid credential", helper.EmptyObj{}))
+	helper.BadRequest(context, "Please check again your credential", "Invalid credential")
 }
 
 func (authController AuthController) Register(context *gin.Context) {
 	var registerDTO dto.RegisterDTO
 	errDTO := context.ShouldBind(&registerDTO)
 	if errDTO != nil {
-		context.AbortWithStatusJSON(http.StatusBadRequest, helper.BuildErrorResponse("Failed to precess request", errDTO.Error(), helper.EmptyObj{}))
+		helper.BadRequest(context, "", errDTO.Error())
 		return
 	}
 
-	if !authController.authService.IsDuplicateEmail(registerDTO.Email) {
-		context.AbortWithStatusJSON(http.StatusBadRequest, helper.BuildErrorResponse("Failed to precess request", "Duplicate Email", helper.EmptyObj{}))
+	if authController.authService.IsDuplicateEmail(registerDTO.Email) {
+		helper.BadRequest(context, "", "Duplicate Email")
 		return
 	} else {
 		createUser := authController.authService.CreateUser(registerDTO)
 		token := authController.jwtService.GenerateToken(createUser.ID)
 		createUser.Token = token
-		context.JSON(http.StatusOK, helper.BuildResponse(true, "ok", createUser))
+		helper.Ok(context, createUser)
 		return
 	}
 }

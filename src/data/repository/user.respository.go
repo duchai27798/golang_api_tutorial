@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"github.com/duchai27798/golang_api_tutorial/src/data/entity"
 	"github.com/duchai27798/golang_api_tutorial/src/utils"
 	"golang.org/x/crypto/bcrypt"
@@ -12,7 +13,7 @@ type IUserRepository interface {
 	UpdateUser(user entity.User) entity.User
 	VerifyCredential(email string, password string) interface{}
 	FindByEmail(email string) entity.User
-	IsDuplicateEmail(email string) (tx *gorm.DB)
+	IsDuplicateEmail(email string) bool
 	FindByID(userID string) entity.User
 }
 
@@ -58,9 +59,10 @@ func (userRepository UserRepository) FindByID(userID string) entity.User {
 	return user
 }
 
-func (userRepository UserRepository) IsDuplicateEmail(email string) (tx *gorm.DB) {
+func (userRepository UserRepository) IsDuplicateEmail(email string) bool {
 	var user entity.User
-	return userRepository.connection.Where("email = ?", email).Take(&user)
+	dbResult := userRepository.connection.Where("email = ?", email).First(&user)
+	return !errors.Is(dbResult.Error, gorm.ErrRecordNotFound)
 }
 
 func NewUserRepository(db *gorm.DB) IUserRepository {

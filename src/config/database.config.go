@@ -30,7 +30,7 @@ func SetupDatabaseConnection() *gorm.DB {
 		utils.LogObj(db, "connect successful")
 	}
 	// migrate db
-	errBD := db.AutoMigrate(&entity.User{}, &entity.Book{})
+	errBD := db.AutoMigrate(&entity.User{})
 	if errBD != nil {
 		utils.LogObj(errBD, "error db")
 	}

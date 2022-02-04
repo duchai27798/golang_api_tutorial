@@ -45,9 +45,7 @@ func (authService AuthService) FindByEmail(email string) entity.User {
 }
 
 func (authService AuthService) IsDuplicateEmail(email string) bool {
-	res := authService.userRepository.IsDuplicateEmail(email)
-	utils.LogObj(res.Error)
-	return !(res.Error == nil)
+	return authService.userRepository.IsDuplicateEmail(email)
 }
 
 func NewAuthService(userRepository repository.IUserRepository) IAuthService {

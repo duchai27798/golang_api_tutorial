@@ -6,18 +6,13 @@
 
 connect successful
 
-error db
-{}
 [GIN-debug] POST   /api/auth/login           --> github.com/duchai27798/golang_api_tutorial/src/controller.IAuthController.Login-fm (3 handlers)
 [GIN-debug] POST   /api/auth/register        --> github.com/duchai27798/golang_api_tutorial/src/controller.IAuthController.Register-fm (3 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :3000
-null
-[GIN] 2022/01/29 - 00:48:03 | 400 |    2.424242ms |       127.0.0.1 | POST     "/api/auth/register"
-null
-[GIN] 2022/01/29 - 00:48:04 | 400 |    1.945615ms |       127.0.0.1 | POST     "/api/auth/register"
-{}
-[GIN] 2022/01/29 - 00:48:27 | 200 |    8.206933ms |       127.0.0.1 | POST     "/api/auth/register"
-null
-[GIN] 2022/01/29 - 00:48:31 | 400 |     1.82345ms |       127.0.0.1 | POST     "/api/auth/register"
+{
+	"email": "2ai",
+	"password": "123456"
+}
+[GIN] 2022/02/04 - 20:23:21 | 400 |     235.136µs |       127.0.0.1 | POST     "/api/auth/login"

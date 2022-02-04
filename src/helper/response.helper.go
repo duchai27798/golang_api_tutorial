@@ -2,6 +2,7 @@ package helper
 
 import "strings"
 
+// Response response struct
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
@@ -9,8 +10,10 @@ type Response struct {
 	Result  interface{} `json:"result"`
 }
 
+// EmptyObj empty object
 type EmptyObj struct{}
 
+// BuildResponse build successful response object
 func BuildResponse(status bool, message string, result interface{}) Response {
 	return Response{
 		Status:  status,
@@ -20,6 +23,7 @@ func BuildResponse(status bool, message string, result interface{}) Response {
 	}
 }
 
+// BuildErrorResponse build error response object
 func BuildErrorResponse(message string, error string, result interface{}) Response {
 	return Response{
 		Status:  false,
